@@ -12,6 +12,7 @@
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
         <instanceable>true</instanceable>
         <ajaxable>false</ajaxable>
+        <portlet-data-handler-class>org.apertereports.util.AperteReportsDataHandler</portlet-data-handler-class>
     </portlet>
     <portlet>
         <portlet-name>Report Manager portlet</portlet-name>
@@ -20,7 +21,7 @@
         <instanceable>false</instanceable>
         <ajaxable>false</ajaxable>
         <control-panel-entry-category>portal</control-panel-entry-category>
-        <control-panel-entry-weight>1</control-panel-entry-weight>
+        <control-panel-entry-weight>1</control-panel-entry-weight>               
     </portlet>
     <portlet>
         <portlet-name>Report Order Browser portlet</portlet-name>
