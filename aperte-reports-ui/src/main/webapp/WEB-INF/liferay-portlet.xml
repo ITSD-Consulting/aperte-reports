@@ -13,6 +13,7 @@
         <instanceable>true</instanceable>
         <ajaxable>false</ajaxable>
         <portlet-data-handler-class>org.apertereports.util.AperteReportsDataHandler</portlet-data-handler-class>
+        <staged-model-data-handler-class>org.apertereports.util.ReportTemplateStagedModelDataHandler</staged-model-data-handler-class>  		        
     </portlet>
     <portlet>
         <portlet-name>Report Manager portlet</portlet-name>

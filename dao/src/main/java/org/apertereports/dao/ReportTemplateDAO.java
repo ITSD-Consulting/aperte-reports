@@ -199,7 +199,7 @@ public final class ReportTemplateDAO {
      * @param filter Filter
      * @param firstResult Index of the first result
      * @param maxResults Number of maximum results
-     * @return A collection of mathing report templates
+     * @return A collection of matching report templates
      */
     public static Collection<ReportTemplate> fetchActive(final User user, final String filter, final int firstResult, final int maxResults) {
         return fetch(user, filter, firstResult, maxResults, true);
@@ -302,6 +302,12 @@ public final class ReportTemplateDAO {
 
             where.add(part.toString());
         }   //when the user is administrator then all reports are available for him
+        
+        //Berücksichtigung des Mandanten
+        if (user != null) {
+            where.add("rt.companyId = ? ");
+            params.add(String.valueOf(user.getCompanyid()));
+        }                
 
         if (!where.isEmpty()) {
             Iterator it = where.iterator();

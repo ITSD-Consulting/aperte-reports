@@ -53,7 +53,19 @@ public class ReportTemplate implements Serializable {
      */
     @Column(nullable = false)
     private String filename;
-    /**
+
+    @Column(nullable = false, name="companyId")
+    private String companyId;
+
+    public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+
+	/**
      * Should report engine allow online display.
      */
     @Column(name = "allow_online_display")
