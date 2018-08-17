@@ -36,7 +36,8 @@ public class StagedReportTemplateImpl implements StagedReportTemplate {
 		this.allowBackgroundOrder = pReportTemplate.getAllowBackgroundOrder();
 		this.id = pReportTemplate.getId();
 		this.reportname = pReportTemplate.getReportname();		
-		this.setCompanyId(Long.valueOf(pReportTemplate.getCompanyId()));
+		if(pReportTemplate.getCompanyId() != null)
+			this.setCompanyId(Long.valueOf(pReportTemplate.getCompanyId()));
 	}
 
 	//reportTemplate Object
