@@ -11,7 +11,8 @@ import org.hibernate.annotations.Type;
  * Holds all the Jasper report template data and specific report configuration.
  */
 @Entity
-@Table(name = "ar_report_template")
+@Table(name = "ar_report_template", uniqueConstraints =
+@UniqueConstraint(columnNames = {"reportname", "companyId"}))
 public class ReportTemplate implements Serializable {
 
     private static final long serialVersionUID = -7196776812526154079L;
@@ -88,7 +89,7 @@ public class ReportTemplate implements Serializable {
      * <code>name</code> attribute of
      * <code>jasperReport</code> tag).
      */
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String reportname;
 
     public boolean getActive() {
