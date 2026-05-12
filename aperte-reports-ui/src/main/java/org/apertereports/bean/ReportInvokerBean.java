@@ -45,11 +45,12 @@ import com.liferay.portal.model.Group;
 import com.liferay.portal.model.Organization;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.UserGroup;
+import com.liferay.portal.model.UserGroupGroupRole;
 import com.liferay.portal.model.UserGroupRole;
 import com.liferay.portal.security.auth.AuthTokenUtil;
 import com.liferay.portal.service.GroupLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.service.UserGroupGroupRoleLocalServiceUtil;
 import com.liferay.portal.service.UserGroupRoleLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 
@@ -157,6 +158,24 @@ public class ReportInvokerBean {
 					roles.add(role);
 			}
 		}
+
+		// 2. SITE-ROLLEN ÜBER BENUTZERGRUPPEN FINDEN
+		for (UserGroup ug : user.getUserGroups()) {
+		    // Wir holen alle Sites, in denen diese Benutzergruppe Mitglied ist
+		    List<Group> groupsOfUserGroup = GroupLocalServiceUtil.getUserGroupGroups(ug.getUserGroupId());
+		    
+		    for (Group site : groupsOfUserGroup) {
+		        // Jetzt fragen wir nach den Rollen, die die BENUTZERGRUPPE in dieser SITE hat
+		        List<UserGroupGroupRole> uggrs = UserGroupGroupRoleLocalServiceUtil.getUserGroupGroupRoles(ug.getUserGroupId(), site.getGroupId());
+		        
+		        for (UserGroupGroupRole uggr : uggrs) {
+		            Role r = uggr.getRole();
+		            roles.add(r);
+		        }
+		    }
+		}		
+		
+		
 		return roles;
 
 	}
