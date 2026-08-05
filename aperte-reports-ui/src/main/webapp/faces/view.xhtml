@@ -2,13 +2,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<script name="jquery/jquery.js" library="primefaces"></script>
 </h:head>
 
-<h:form>
+<h:form pt:data-testid="itsd_aperteView_form">
 	<script type="text/javascript">
 		PrimeFaces.locales['de'] = {
 			closeText : 'Schließen',
@@ -47,17 +48,20 @@
 			<div class="report-template">
 				<h:outputText class="report-name" value="#{template.reportname}" />
 
-
-				<p:commandButton class="report-param-btn btn btn-primary" value="Report verwenden"
+				<p:commandButton value="Report verwenden"
+					pt:data-testid="itsd_aperteView_btnReportVerwenden"
+					class="report-param-btn btn btn-primary" 
 					update="@form"
 					action="#{reportInvokerBean.initReportMaster(template)}"
 					rendered="#{reportInvokerBean.getReportMaster(template) == null}" />
-				<p:commandButton class="report-param-btn btn btn-primary"
-					value="Parameter ausblenden" update="@form"
+				<p:commandButton value="Parameter ausblenden"  
+					pt:data-testid="itsd_aperteView_btnReportAusblenden"
+					class="report-param-btn btn btn-primary"
+					update="@form"
 					action="#{reportInvokerBean.destroyReportMaster(template)}"
 					rendered="#{reportInvokerBean.getReportMaster(template) != null}" />
-
 			</div>
+
 			<div class="report-parameters" >
 				<h:outputText value="#{template.description}" style="padding: 1rem;" rendered="#{reportInvokerBean.getReportMaster(template) != null and not empty template.description}"/>
 				<p:dataTable var="parameter" styleClass="parameters-table" rendered="#{reportInvokerBean.getReportMaster(template) != null}"
@@ -84,16 +88,19 @@
 							value="#{reportInvokerBean.getReportParameters(template)[parameter.key]}"
 							rendered="#{reportInvokerBean.isTextInput(template, parameter.key)}" id="paramInputText"/>
 						<p:datePicker locale="de" pattern="dd.MM.yyyy" id="paramDatePicker"
+							pt:data-testid="itsd_aperteView_date_#{reportInvokerBean.getParameterLabel(template, parameter.key)}"
 							value="#{reportInvokerBean.getReportParameters(template)[parameter.key]}"
 							rendered="#{reportInvokerBean.isDateInput(template, parameter.key)}"
 							showIcon="true" buttonTabindex="0" title="#{reportInvokerBean.getParameterLabel(template, parameter.key)}"/>
 						<h:selectManyListbox styleClass="dict-selection" size="8" id="paramSelectManyListbox"
+							pt:data-testid="itsd_aperteView_SelectMany"
 							value="#{reportInvokerBean.getReportParameters(template)[parameter.key]}"
 							rendered="#{reportInvokerBean.isMultiSelectInput(template, parameter.key)}">
 							<f:selectItems
 								value="#{reportInvokerBean.getDictionarySelectItems(template, parameter.key)}" />
 						</h:selectManyListbox>
 						<h:selectOneMenu styleClass="dict-selection" id="paramSelectOneMenu"
+							pt:data-testid="itsd_aperteView_SelectOneMenu"
 							value="#{reportInvokerBean.getReportParameters(template)[parameter.key]}"
 							rendered="#{reportInvokerBean.isSingleSelectInput(template, parameter.key)}">
 							<f:selectItem itemLabel="" itemValue="" />
@@ -107,6 +114,7 @@
 					rendered="#{reportInvokerBean.getReportMaster(template) != null}">
 					<h:outputLabel value="Format" for="formatSelect"/>
 					<h:selectOneMenu id="formatSelect"
+						pt:data-testid="itsd_aperteView_selectFormat"
 						value="#{reportInvokerBean.getReportParameters(template)['report_type']}">
 						<f:selectItems
 							value="#{reportInvokerBean.getReportTypeSelectItems()}" />
@@ -115,6 +123,7 @@
 
 
 				<p:commandButton value="Generieren" ajax="false"
+					pt:data-testid="itsd_aperteView_btnReportGenerieren"
 					styleClass="generate-btn btn btn-primary"
 					action="#{reportInvokerBean.generateReport(template)}"
 					rendered="#{reportInvokerBean.getReportMaster(template) != null}" />
@@ -122,7 +131,7 @@
 		</div>
 	</ui:repeat>
 
-	<p:messages closable="true" showDetail="false" styleClass="message-bar" />
+	<p:messages closable="true" showDetail="false" styleClass="message-bar" pt:data-testid="itsd_aperteView_msgBar" />
 </h:form>
 
 </html>
